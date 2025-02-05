@@ -1,0 +1,41 @@
+server {
+  listen 80;
+  listen [::]:80;
+  server_name ${WEBSITE_HOST} www.${WEBSITE_HOST};
+  return 301 https://${WEBSITE_HOST}$request_uri;
+}
+
+server {
+  listen 443 ssl;
+  listen [::]:443 ssl;
+  server_name www.${WEBSITE_HOST};
+  return 301 https://${WEBSITE_HOST}$request_uri;
+
+  ssl_certificate ${WEBSITE_SSL_CRT};
+  ssl_certificate_key ${WEBSITE_SSL_KEY};
+}
+
+server{
+  listen 443 ssl;
+  listen [::]:443 ssl; 
+  server_name ${WEBSITE_HOST};
+  
+  ssl_certificate ${WEBSITE_SSL_CRT};
+  ssl_certificate_key ${WEBSITE_SSL_KEY};
+
+  location / {
+  proxy_http_version 1.1;
+
+  proxy_pass http://website:${WEBSITE_PORT}$request_uri;
+
+  proxy_set_header Host $host;
+  proxy_set_header Upgrade $http_upgrade;
+  proxy_set_header X-Forwarded-Host $http_host;
+  proxy_set_header X-Real-IP $remote_addr;
+  proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+  proxy_set_header X-Forwarded-Proto $scheme;
+
+  proxy_redirect off;
+  }
+
+}

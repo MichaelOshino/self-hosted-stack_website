@@ -1,0 +1,9 @@
+services:
+  website:
+    build:
+      context: ./services-data/website
+    env_file:
+      - ./env/website.env
+    restart: unless-stopped
+    networks:
+      - nginx-proxy 
