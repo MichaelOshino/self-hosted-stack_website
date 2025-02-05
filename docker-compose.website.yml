@@ -3,7 +3,7 @@ services:
     build:
       context: ./services-data/website
     env_file:
-      - ./env/website.env
+      - ./env/nginx-rp-extra.env
     restart: unless-stopped
     networks:
       - nginx-proxy 
