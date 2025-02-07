@@ -4,7 +4,7 @@ LABEL maintainer="neet@michaeloshino.ru"
 LABEL version="2.0"
 LABEL description="Сайт портфолио Майкла Ошино"
 
-ARG SITE_PATH=/usr/share/nginx/html
+ENV SITE_PATH=/usr/share/nginx/html
 
 FROM base AS build
 
